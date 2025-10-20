@@ -1,5 +1,6 @@
 """Entry point for the Employee Training Application."""
 """Checking VS Commit"""
+"""Checking again"""
 
 import json
 from argparse import ArgumentParser
