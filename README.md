@@ -27,40 +27,13 @@ Automation: Bash
 
 Version Control: Git
 
-📂 Folder Structure
-media_rights_licensing/
-│
-├── src/
-│   ├── main.py
-│   ├── data/
-│   │   ├── database.py
-│   │   └── models.py
-│   ├── logic/
-│   │   └── license_manager.py
-│   └── interface/
-│       └── menu.py
-│
-├── scripts/
-│   ├── init_db.sh
-│   ├── run_tests.sh
-│   └── run_app.sh
-│
-├── data/
-│   └── media_rights.db
-│
-├── logs/
-│   └── app.log
-│
-├── config/
-│   └── settings.json
-│
-└── README.md
+
 
 🚀 Setup Instructions
 
 Clone the repository:
 
-git clone https://github.com/yourusername/media_rights_licensing.git
+git clone https://github.com/dipikaxsharma/media_rights_licensing.git
 cd media_rights_licensing
 
 
