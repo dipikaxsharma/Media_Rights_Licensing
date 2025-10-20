@@ -1,9 +1,10 @@
 """Entry point for the Employee Training Application."""
-
+"""Checking VS Commit"""
 
 import json
 from argparse import ArgumentParser
 from application_name.presentation_layer.user_interface import UserInterface
+
 
 
 
