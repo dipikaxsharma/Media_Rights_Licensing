@@ -43,3 +43,35 @@ def create_distributor(distributor: Distributor) -> Distributor:
         contact_email=distributor.contact_email,
         region=distributor.region,
     )
+def get_distributor_by_id(distributor_id: int) -> Optional[Distributor]:
+    """
+    I wrote this function so I can look up a single Distributor
+    record in the database using its primary key id.
+
+    It:
+    - opens a database connection
+    - runs a SELECT with the id as a parameter
+    - if a row is found, converts it into a Distributor object
+    - if nothing is found, returns None
+    """
+    select_sql = """
+        SELECT id, name, contact_email, region
+        FROM distributor
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql, (distributor_id,))
+        row = cursor.fetchone()
+
+    if row is None:
+        # I return None if there is no matching row so the caller can
+        # handle "not found" cases in the service or UI layer.
+        return None
+
+    return Distributor(
+        id=row["id"],
+        name=row["name"],
+        contact_email=row["contact_email"],
+        region=row["region"],
+    )
