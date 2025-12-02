@@ -122,3 +122,39 @@ def list_all_content() -> List[Content]:
         )
 
     return contents
+def update_content(content: Content) -> bool:
+    """
+    I wrote this function so I can update an existing Content
+    record in the database.
+
+    It:
+    - runs an UPDATE statement using the content.id as the key
+    - returns True if a row was actually updated
+    - returns False if no rows were changed (for example, bad id)
+    """
+    update_sql = """
+        UPDATE content
+        SET title = ?,
+            genre = ?,
+            content_type = ?,
+            release_year = ?,
+            notes = ?
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(
+            update_sql,
+            (
+                content.title,
+                content.genre,
+                content.content_type,
+                content.release_year,
+                content.notes,
+                content.id,
+            ),
+        )
+        conn.commit()
+
+    # rowcount tells me how many rows were affected by the UPDATE
+    return cursor.rowcount > 0
