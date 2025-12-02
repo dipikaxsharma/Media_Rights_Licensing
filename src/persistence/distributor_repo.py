@@ -109,3 +109,35 @@ def list_all_distributors() -> List[Distributor]:
         )
 
     return distributors
+def update_distributor(distributor: Distributor) -> bool:
+    """
+    I wrote this function so I can update an existing Distributor
+    record in the database.
+
+    It:
+    - runs an UPDATE statement using distributor.id as the key
+    - returns True if a row was actually updated
+    - returns False if no rows were changed (for example, bad id)
+    """
+    update_sql = """
+        UPDATE distributor
+        SET name = ?,
+            contact_email = ?,
+            region = ?
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(
+            update_sql,
+            (
+                distributor.name,
+                distributor.contact_email,
+                distributor.region,
+                distributor.id,
+            ),
+        )
+        conn.commit()
+
+    # rowcount tells me how many rows were affected by the UPDATE
+    return cursor.rowcount > 0
