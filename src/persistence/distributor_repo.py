@@ -141,3 +141,24 @@ def update_distributor(distributor: Distributor) -> bool:
 
     # rowcount tells me how many rows were affected by the UPDATE
     return cursor.rowcount > 0
+def delete_distributor(distributor_id: int) -> bool:
+    """
+    I wrote this function so I can delete a Distributor record
+    from the database by its id.
+
+    It:
+    - runs a DELETE statement using the id
+    - returns True if a row was actually deleted
+    - returns False if no row matched that id
+    """
+    delete_sql = """
+        DELETE FROM distributor
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(delete_sql, (distributor_id,))
+        conn.commit()
+
+    # If rowcount is 0, nothing was deleted (bad or missing id)
+    return cursor.rowcount > 0
