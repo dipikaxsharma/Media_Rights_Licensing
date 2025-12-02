@@ -16,3 +16,7 @@
   I wrote them so the Distributor objects can be saved to the SQLite database 
   and reconstructed later. This will make persistence and testing much easier.
 
+- I wrote the create_content function in content_repo.py so I can insert Content objects into the SQLite DB and get back the new id
+
+- 
+
