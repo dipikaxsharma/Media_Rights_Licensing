@@ -75,3 +75,37 @@ def get_distributor_by_id(distributor_id: int) -> Optional[Distributor]:
         contact_email=row["contact_email"],
         region=row["region"],
     )
+def list_all_distributors() -> List[Distributor]:
+    """
+    I wrote this function so I can pull every distributor record
+    from the database and convert each row into a Distributor object.
+
+    It:
+    - opens the database
+    - runs a SELECT query for all rows
+    - loops through the rows
+    - turns each into a Distributor object
+    - returns the list
+    """
+    select_sql = """
+        SELECT id, name, contact_email, region
+        FROM distributor
+        ORDER BY id
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql)
+        rows = cursor.fetchall()
+
+    distributors: List[Distributor] = []
+    for row in rows:
+        distributors.append(
+            Distributor(
+                id=row["id"],
+                name=row["name"],
+                contact_email=row["contact_email"],
+                region=row["region"],
+            )
+        )
+
+    return distributors
