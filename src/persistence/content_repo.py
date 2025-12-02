@@ -50,3 +50,38 @@ def create_content(content: Content) -> Content:
         release_year=content.release_year,
         notes=content.notes,
     )
+def get_content_by_id(content_id: int) -> Optional[Content]:
+    """
+    I wrote this function so I can look up a single Content record
+    from the database using its primary key id.
+
+    It:
+    - opens a database connection
+    - runs a SELECT statement with the id as a parameter
+    - if a row is found, converts it into a Content object
+    - if nothing is found, returns None
+    """
+    select_sql = """
+        SELECT id, title, genre, content_type, release_year, notes
+        FROM content
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql, (content_id,))
+        row = cursor.fetchone()
+
+    if row is None:
+        # I return None if there is no matching row so the caller can
+        # handle "not found" cases in the service or UI layer.
+        return None
+
+    # I build and return a Content object from the row.
+    return Content(
+        id=row["id"],
+        title=row["title"],
+        genre=row["genre"],
+        content_type=row["content_type"],
+        release_year=row["release_year"],
+        notes=row["notes"],
+    )
