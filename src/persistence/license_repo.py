@@ -54,3 +54,37 @@ def create_license(license_xref: LicenseXref) -> LicenseXref:
         end_date=license_xref.end_date,
         terms=license_xref.terms,
     )
+def get_license_by_id(license_id: int) -> Optional[LicenseXref]:
+    """
+    I wrote this function so I can look up a single LicenseXref
+    record in the database using its primary key id.
+
+    It:
+    - opens a database connection
+    - runs a SELECT with the id as a parameter
+    - if a row is found, converts it into a LicenseXref object
+    - if nothing is found, returns None
+    """
+    select_sql = """
+        SELECT id, content_id, distributor_id, start_date, end_date, terms
+        FROM license_xref
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql, (license_id,))
+        row = cursor.fetchone()
+
+    if row is None:
+        # I return None if there is no matching row so the caller can
+        # handle "not found" cases in the service or UI layer.
+        return None
+
+    return LicenseXref(
+        id=row["id"],
+        content_id=row["content_id"],
+        distributor_id=row["distributor_id"],
+        start_date=row["start_date"],
+        end_date=row["end_date"],
+        terms=row["terms"],
+    )
