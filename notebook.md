@@ -11,3 +11,8 @@
 **Notes / Reflection:**
 - Ensured database schema follows project guidelines (primary/foreign keys)
 - Verified files are correctly placed for multi-layer architecture
+
+- I added the to_dict and from_dict methods to the Distributor class today. 
+  I wrote them so the Distributor objects can be saved to the SQLite database 
+  and reconstructed later. This will make persistence and testing much easier.
+
