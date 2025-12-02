@@ -158,3 +158,24 @@ def update_content(content: Content) -> bool:
 
     # rowcount tells me how many rows were affected by the UPDATE
     return cursor.rowcount > 0
+def delete_content(content_id: int) -> bool:
+    """
+    I wrote this function so I can delete a Content record
+    from the database by its id.
+
+    It:
+    - runs a DELETE statement using the id
+    - returns True if a row was actually deleted
+    - returns False if no row matched that id
+    """
+    delete_sql = """
+        DELETE FROM content
+        WHERE id = ?
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(delete_sql, (content_id,))
+        conn.commit()
+
+    # If rowcount is 0, nothing was deleted (bad or missing id)
+    return cursor.rowcount > 0
