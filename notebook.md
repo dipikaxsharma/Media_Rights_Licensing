@@ -18,5 +18,5 @@
 
 - I wrote the create_content function in content_repo.py so I can insert Content objects into the SQLite DB and get back the new id
 
-- 
+- I added list_all_content to content_repo so I can pull all content records from the database and convert them into Content objects for the menu to display.
 
