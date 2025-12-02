@@ -88,3 +88,39 @@ def get_license_by_id(license_id: int) -> Optional[LicenseXref]:
         end_date=row["end_date"],
         terms=row["terms"],
     )
+def list_all_licenses() -> List[LicenseXref]:
+    """
+    I wrote this function so I can pull every license record
+    from the database and convert each row into a LicenseXref object.
+
+    It:
+    - opens the database
+    - runs a SELECT query for all rows
+    - loops through the rows
+    - turns each into a LicenseXref object
+    - returns the list
+    """
+    select_sql = """
+        SELECT id, content_id, distributor_id, start_date, end_date, terms
+        FROM license_xref
+        ORDER BY id
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql)
+        rows = cursor.fetchall()
+
+    licenses: List[LicenseXref] = []
+    for row in rows:
+        licenses.append(
+            LicenseXref(
+                id=row["id"],
+                content_id=row["content_id"],
+                distributor_id=row["distributor_id"],
+                start_date=row["start_date"],
+                end_date=row["end_date"],
+                terms=row["terms"],
+            )
+        )
+
+    return licenses
