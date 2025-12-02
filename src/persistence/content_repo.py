@@ -85,3 +85,40 @@ def get_content_by_id(content_id: int) -> Optional[Content]:
         release_year=row["release_year"],
         notes=row["notes"],
     )
+
+def list_all_content() -> List[Content]:
+    """
+    I wrote this function so I can pull every content record
+    from the database and convert each row into a Content object.
+
+    It:
+    - opens the database
+    - runs a SELECT query for all rows
+    - loops through the rows
+    - turns each into a Content object
+    - returns the list
+    """
+    select_sql = """
+        SELECT id, title, genre, content_type, release_year, notes
+        FROM content
+        ORDER BY id
+    """
+
+    with get_connection() as conn:
+        cursor = conn.execute(select_sql)
+        rows = cursor.fetchall()
+
+    contents: List[Content] = []
+    for row in rows:
+        contents.append(
+            Content(
+                id=row["id"],
+                title=row["title"],
+                genre=row["genre"],
+                content_type=row["content_type"],
+                release_year=row["release_year"],
+                notes=row["notes"],
+            )
+        )
+
+    return contents
